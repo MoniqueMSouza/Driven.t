@@ -12,11 +12,11 @@ async function getAddressFromCEP(cep: string): Promise <AdressEnrollment> {
   // FIXME: está com CEP fixo!
   const result = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
 
-  if (!result.data) {
+  if (!result.data || result.data.erro ) {
     throw notFoundError();
   }
   const {bairro, localidade, uf, complemento, logradouro} = result.data
-  const address = {
+  const address: AdressEnrollment = {
     bairro,
     cidade: localidade,
     uf,
